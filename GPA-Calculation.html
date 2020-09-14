@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="GPA calculation" content="Input each course for GPA">
+    <meta name="author" content="Xingwang Cheng">
+
+    <style type="text/css">
+      .table{
+        width: 300px;
+        margin: auto;
+        border: 1px solid;
+        padding: 10px;
+      }
+      table{
+        width: 100%;
+      }
+      .header th {
+        text-decoration:underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="table">
+      <table border="0" rules="none" width=33 id="table">
+        <tr class="header">
+          <th>COURSE</th >
+          <th>GRADE</th>
+          <th>HOURS</th>
+        </tr>
+      </table>
+      <p id="grade">Total grade points = </p>
+      <p id="hours">Number of hours = </p>
+      <p id="gpa">GPA = </p>
+    </div>
+  <script>
+    // [course1, course2, ...]
+    var arr = []
+    var hours = 0
+    var flag = true
+    while(flag){
+      let str = prompt("Enter course name, grade, and credit hours (e.g., \"CSC551 B+ 3\") or click OK")
+      if(str === "") flag = false
+      else{
+        // remove any padding space
+        var item = str.split(/(\s+)/).filter( e => e.trim().length > 0)
+        arr.push({course:item[0], grade:item[1],hours:item[2]})
+      }
+    }
+    var tableDom = document.getElementById("table")
+    var gradeDom = document.getElementById("grade")
+    var hoursDom = document.getElementById("hours")
+    var gpaDom = document.getElementById("gpa")
+
+    var str = ""
+    let gradeMap = new Map([
+    ['A', 4], ['B+', 3.5], ['B', 3], ['C+', 2.5], ['C',  2], ['D', 1], ['F', 0]]);
+    var totalGrade = 0;
+    for(var i = 0 ;i < arr.length; i++){
+      str += "<tr align=center><td>"+arr[i].course+"</td><td>"+arr[i].grade+"</td><td>"+arr[i].hours+"</td></tr>"
+      totalGrade += +(gradeMap.get(arr[i].grade)) * arr[i].hours
+      hours += parseInt(arr[i].hours)
+    }
+    tableDom.innerHTML+=str
+    hoursDom.innerHTML+=hours
+    gradeDom.innerHTML+=totalGrade
+    gpaDom.innerHTML+=(totalGrade/hours)
+  </script>
+  </body>
+</html>
